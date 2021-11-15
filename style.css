@@ -1,15 +1,14 @@
 /* Style sheet from index.html and gtlf.html */
 
-@import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;500;700&display=swap");
-
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@100&display=swap');
 html,
 body {
-  font-family: "Source Code Pro", monospace;
+font-family: 'Libre Franklin', sans-serif;
   margin: auto;
   display: block;
   padding: 20px;
   background: url(
-data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAMklEQVQYV2N8dvrxfwYk8Oz0EwZGZEGQgJSpDEIQJgDSBFYJE4CrPDPt+H+QFhgASQAAS1MjDyLYWWEAAAAASUVORK5CYII=
+data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAADCAYAAACqPZ51AAAAJElEQVQImWO48efJf2SccbH7P7rYjT9P/jNgU4RNMQMuk9D5ALgDaq+aPr/CAAAAAElFTkSuQmCC
     )repeat;
 }
 
@@ -32,7 +31,7 @@ canvas {
 
 h1 {
   font-style: bold;
-  color: #2E9939;
+  color: #8b2257;
   max-width: 75%;
   text-align: center;
   margin: auto;
@@ -40,7 +39,7 @@ h1 {
 }
 
 h2 {
-  color: #2E5999;
+  color: #;
   max-width: 75%;
   text-align: center;
   margin: auto;
@@ -57,12 +56,12 @@ p {
   line-height: 150%;
 }
 
-p.mid {
+p.info {
   padding-left: 0%;
   text-align: center;
   margin: auto;
 }
 
 a {
-  color: #735223;
+  color: #ac0157;
 }

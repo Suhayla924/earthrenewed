@@ -2,6 +2,8 @@
 // client7.js
 // A three.js scene which uses planes and texture loading to generate a scene with images which can be traversed with basic WASD and mouse controls, this scene is full screen with an overlay.
 
+//import gltf loader add-on
+import { GLTFLoader } from "./src/GLTFLoader.js";
 // Import required source code
 // Import three.js core
 import * as THREE from "./build/three.module.js";
@@ -41,15 +43,43 @@ function init() {
     1,
     1000
   );
-  camera.position.y = 10;
+  camera.position.y = 0;
 
   // Define basic scene parameters
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x000000);
   scene.fog = new THREE.Fog(0xffffff, 0, 750);
 
+  // Variable for GLTF data
+  var mesh;
+
+  // Load GLTF model, add material, and add it to the scene
+  const loader = new GLTFLoader().load(
+    "./assets/moss-building-bushes-fallen-ver1.glb", // comment this line out and un comment the line below to swithc models
+
+    function(gltf) {
+      // Scan loaded model for mesh and apply defined material if mesh is present
+      gltf.scene.traverse(function(child) {
+        if (child.isMesh) {
+          //child.material = newMaterial;
+        }
+      });
+      // set position and scale
+      mesh = gltf.scene;
+      mesh.position.set(100, 0, 200);
+      mesh.rotation.set(0, 0, 0);
+      mesh.scale.set(15, 15, 15); // <-- change this to (1, 1, 1) for photogrammetery model
+      // Add model to scene
+      scene.add(mesh);
+    },
+    undefined,
+    function(error) {
+      console.error(error);
+    }
+  );
+
   // Define scene lighting
-  const light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.75);
+  const light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.15);
   light.position.set(0.5, 1, 0.75);
   scene.add(light);
 
@@ -195,7 +225,7 @@ function init() {
   // Apply image texture to plane geometry
   const plane = new THREE.Mesh( geometry, material );
   // Position plane geometry
-  plane.position.set(0 , 15 , -15);
+  plane.position.set(50 , 5 , -15);
   // Place plane geometry
   scene.add( plane );
 

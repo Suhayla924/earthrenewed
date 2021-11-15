@@ -1,11 +1,10 @@
-/* Style sheet from index.html and gtlf.html
+/* Style sheet from world.html
 This is used because of the differences needed for the full screen style.*/
 
-@import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;500;700&display=swap");
-
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@100&display=swap');
 html,
 body {
-  font-family: "Source Code Pro", monospace;
+font-family: 'Libre Franklin', sans-serif;
   margin: auto;
 }
 
