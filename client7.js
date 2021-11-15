@@ -201,7 +201,7 @@ function init() {
 
   // Second Image (Text with image and white background)
   // Load image as texture
-  const texture2 = new THREE.TextureLoader().load( './assets/bouy.jpg' );
+  const texture2 = new THREE.TextureLoader().load( './assets/city-text.jpeg' );
   // immediately use the texture for material creation
   const material2 = new THREE.MeshBasicMaterial( { map: texture2, side: THREE.DoubleSide } );
   // Create plane geometry
