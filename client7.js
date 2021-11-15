@@ -187,7 +187,7 @@ function init() {
 
   // First Image (red and purple glitch map)
   // Load image as texture
-  const texture = new THREE.TextureLoader().load( './assets/glitch_map.jpg' );
+  const texture = new THREE.TextureLoader().load( './assets/lichen-texture.png' );
   // Immediately use the texture for material creation
   const material = new THREE.MeshBasicMaterial( { map: texture, side: THREE.DoubleSide } );
   // Create plane geometry
