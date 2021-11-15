@@ -22,7 +22,7 @@ document.body.appendChild(renderer.domElement);
 
 // Add a polygon to the scene
 const geometry = new THREE.SphereGeometry(4, 0);
-const material = new THREE.MeshStandardMaterial({ rgb(205,247,253) });
+const material = new THREE.MeshStandardMaterial({ color:'rgb(131,235,250)' });
 const poly = new THREE.Mesh(geometry, material);
 scene.add(poly);
 
