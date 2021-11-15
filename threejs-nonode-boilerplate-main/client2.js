@@ -30,14 +30,14 @@ renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
 container.appendChild(renderer.domElement);
 
 // Material to be added to model
-var newMaterial = new THREE.MeshStandardMaterial({ color: 0x2E5939 });
+//var newMaterial = new THREE.MeshStandardMaterial({ color: 0x2E5939 });
 
 // Variable for GLTF data
 var mesh;
 
 // Load GLTF model, add material, and add it to the scene
 const loader = new GLTFLoader().load(
-  "./assets/testing123fogv3.glb", // comment this line out and un comment the line below to swithc models
+  "./assets/flower-ver-2.glb", // comment this line out and un comment the line below to swithc models
   //"./assets/gourd_web.glb", //<-- photogrammetery model
   function(gltf) {
     // Scan loaded model for mesh and apply defined material if mesh is present
@@ -50,7 +50,7 @@ const loader = new GLTFLoader().load(
     mesh = gltf.scene;
     mesh.position.set(0, 0, 0);
     mesh.rotation.set(45, 0, 0);
-    mesh.scale.set(.2, .2, .2); // <-- change this to (1, 1, 1) for photogrammetery model
+    mesh.scale.set(.52, .52, .52); // <-- change this to (1, 1, 1) for photogrammetery model
     // Add model to scene
     scene.add(mesh);
   },
@@ -62,13 +62,13 @@ const loader = new GLTFLoader().load(
 
 // Add Orbit Controls
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.minDistance = 3;
-controls.maxDistance = 6;
+controls.minDistance = 0.52;
+controls.maxDistance = 25;
 controls.target.set(0, 0, -0.2);
 controls.update();
 
 // Position our camera so we can see the shape
-camera.position.z = 4.5;
+camera.position.z = 3.5;
 
 // Add a directional light to the scene
 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.9);
