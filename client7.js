@@ -77,6 +77,30 @@ function init() {
       console.error(error);
     }
   );
+  // Load the second GLTF model, add material, and add it to the scene
+  const loader2 = new GLTFLoader().load(
+    "./assets/moss-building-bushes-fallen-ver1.glb", // comment this line out and un comment the line below to swithc models
+
+    function(gltf) {
+      // Scan loaded model for mesh and apply defined material if mesh is present
+      gltf.scene.traverse(function(child) {
+        if (child.isMesh) {
+          //child.material = newMaterial;
+        }
+      });
+      // set position and scale
+      mesh = gltf.scene;
+      mesh.position.set(-100, 0, -200);
+      mesh.rotation.set(0, 0, 0);
+      mesh.scale.set(15, 15, 15); // <-- change this to (1, 1, 1) for photogrammetery model
+      // Add model to scene
+      scene.add(mesh);
+    },
+    undefined,
+    function(error) {
+      console.error(error);
+    }
+  );
 
   // Define scene lighting
   const light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.15);
@@ -196,7 +220,7 @@ function init() {
   const colorsFloor = [];
 
   for (let i = 0, l = position.count; i < l; i++) {
-    color.setHSL(Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75);
+    color.setHSL(0.5, 0.5, 0.75);
     colorsFloor.push(color.r, color.g, color.b);
   }
 
