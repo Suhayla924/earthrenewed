@@ -245,7 +245,7 @@ function init() {
   // Immediately use the texture for material creation
   const material = new THREE.MeshBasicMaterial( { map: texture, side: THREE.DoubleSide } );
   // Create plane geometry
-  const geometry = new THREE.PlaneGeometry( 32, 16 );
+  const geometry = new THREE.SphereGeometry( 32, 16 );
   // Apply image texture to plane geometry
   const plane = new THREE.Mesh( geometry, material );
   // Position plane geometry
