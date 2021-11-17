@@ -1,8 +1,8 @@
 import * as THREE from '../build/three.module.js';
 
-import Stats from './src/stats.module.js';
+import Stats from './jsm/libs/stats.module.js';
 
-import { FirstPersonControls } from './src/FirstPersonControls.js';
+import { FirstPersonControls } from './jsm/controls/FirstPersonControls.js';
 
 let camera, controls, scene, renderer, stats;
 
@@ -37,7 +37,7 @@ function init() {
 
   }
 
-  const texture = new THREE.TextureLoader().load( 'textures/water.jpg' );
+  const texture = new THREE.TextureLoader().load( 'assets/lichen-texture.png' );
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set( 5, 5 );
 
