@@ -1,13 +1,13 @@
 import * as THREE from '/build/three.module.js';
 
-import Stats from './jsm/libs/stats.module.js';
+import Stats from '/jsm/libs/stats.module.js';
 
 import {
   FirstPersonControls
-} from './jsm/controls/FirstPersonControls.js';
+} from '/jsm/controls/FirstPersonControls.js';
 import {
   ImprovedNoise
-} from './jsm/math/ImprovedNoise.js';
+} from '/jsm/math/ImprovedNoise.js';
 
 let container, stats;
 let camera, controls, scene, renderer;
