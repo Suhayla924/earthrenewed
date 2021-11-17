@@ -1,109 +1,99 @@
-import * as THREE from '../build/three.module.js';
+// Art 109 Three.js Demo Site
+// client2.js
+// A three.js scene which loads a custom GLTF model and implements Orbit controls
 
-import Stats from './jsm/libs/stats.module.js';
+// Import required source code
+// Import three.js core
+import * as THREE from "./build/three.module.js";
 
-import { FirstPersonControls } from './jsm/controls/FirstPersonControls.js';
+// Import add-ons for GLTF models and orbit controls
+import { OrbitControls } from "./src/OrbitControls.js";
+import { GLTFLoader } from "./src/GLTFLoader.js";
 
-let camera, controls, scene, renderer, stats;
+//Identify div in HTML to place scene
+var container = document.getElementById("space");
 
-let mesh, geometry, material, clock;
+//Create scene
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(
+  50,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
+const renderer = new THREE.WebGLRenderer();
+renderer.setClearColor(0xdfdfdf);
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
+//renderer.setSize(400, 800);
+// Add scene to gltf.html
+container.appendChild(renderer.domElement);
 
-const worldWidth = 128, worldDepth = 128;
+// Material to be added to model
+var newMaterial = new THREE.MeshStandardMaterial({ color: 0x2E5939 });
 
-init();
-animate();
+// Variable for GLTF data
+var mesh;
 
-function init() {
-
-  camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 20000 );
-  camera.position.y = 200;
-
-  clock = new THREE.Clock();
-
-  scene = new THREE.Scene();
-  scene.background = new THREE.Color( 0xaaccff );
-  scene.fog = new THREE.FogExp2( 0xaaccff, 0.0007 );
-
-  geometry = new THREE.PlaneGeometry( 20000, 20000, worldWidth - 1, worldDepth - 1 );
-  geometry.rotateX( - Math.PI / 2 );
-
-  const position = geometry.attributes.position;
-  position.usage = THREE.DynamicDrawUsage;
-
-  for ( let i = 0; i < position.count; i ++ ) {
-
-    const y = 35 * Math.sin( i / 2 );
-    position.setY( i, y );
-
+// Load GLTF model, add material, and add it to the scene
+const loader = new GLTFLoader().load(
+  "./assets/flower-ver1.glb", // comment this line out and un comment the line below to swithc models
+  //"./assets/gourd_web.glb", //<-- photogrammetery model
+  function(gltf) {
+    // Scan loaded model for mesh and apply defined material if mesh is present
+    gltf.scene.traverse(function(child) {
+      if (child.isMesh) {
+        //child.material = newMaterial;
+      }
+    });
+    // set position and scale
+    mesh = gltf.scene;
+    mesh.position.set(0, 0, 0);
+    mesh.rotation.set(45, 10, 0);
+    mesh.scale.set(.35, .35, .35); // <-- change this to (1, 1, 1) for photogrammetery model
+    // Add model to scene
+    scene.add(mesh);
+  },
+  undefined,
+  function(error) {
+    console.error(error);
   }
+);
 
-  const texture = new THREE.TextureLoader().load( 'assets/lichen-texture.png' );
-  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.set( 5, 5 );
+// Add Orbit Controls
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.minDistance = 1;
+controls.maxDistance = 10;
+controls.target.set(0, 0, -0.5);
+controls.update();
 
-  material = new THREE.MeshBasicMaterial( { color: 0x0044ff, map: texture } );
+// Position our camera so we can see the shape
+camera.position.z = 4.5;
 
-  mesh = new THREE.Mesh( geometry, material );
-  scene.add( mesh );
+// Add a directional light to the scene
+const directionalLight = new THREE.DirectionalLight(0xffffff, 8);
+scene.add(directionalLight);
 
-  renderer = new THREE.WebGLRenderer( { antialias: true } );
-  renderer.setPixelRatio( window.devicePixelRatio );
-  renderer.setSize( window.innerWidth, window.innerHeight );
-  document.body.appendChild( renderer.domElement );
+// Add an ambient light to the scene
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+scene.add(ambientLight);
 
-  controls = new FirstPersonControls( camera, renderer.domElement );
-
-  controls.movementSpeed = 500;
-  controls.lookSpeed = 0.1;
-
-  stats = new Stats();
-  document.body.appendChild( stats.dom );
-
-  //
-
-  window.addEventListener( 'resize', onWindowResize );
-
+// Define and call the render loop
+// Define
+function render() {
+  requestAnimationFrame(render);
+  renderer.render(scene, camera);
 }
+// Call
+render();
 
+// Respond to Window Resizing
+window.addEventListener("resize", onWindowResize);
+
+// Window resizing function
 function onWindowResize() {
-
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
-
-  renderer.setSize( window.innerWidth, window.innerHeight );
-
-  controls.handleResize();
-
-}
-
-//
-
-function animate() {
-
-  requestAnimationFrame( animate );
-
+  renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
   render();
-  stats.update();
-
-}
-
-function render() {
-
-  const delta = clock.getDelta();
-  const time = clock.getElapsedTime() * 10;
-
-  const position = geometry.attributes.position;
-
-  for ( let i = 0; i < position.count; i ++ ) {
-
-    const y = 35 * Math.sin( i / 5 + ( time + i ) / 7 );
-    position.setY( i, y );
-
-  }
-
-  position.needsUpdate = true;
-
-  controls.update( delta );
-  renderer.render( scene, camera );
-
 }

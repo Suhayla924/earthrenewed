@@ -1,9 +1,9 @@
 // Art 109 Three.js Demo Site
-// client7.js
-// A three.js scene which uses planes and texture loading to generate a scene with images which can be traversed with basic WASD and mouse controls, this scene is full screen with an overlay.
-
+// client4.js
 //import gltf loader add-on
-import { GLTFLoader } from "./src/GLTFLoader.js";
+import {
+  GLTFLoader
+} from "./src/GLTFLoader.js";
 // Import required source code
 // Import three.js core
 import * as THREE from "./build/three.module.js";
@@ -47,15 +47,15 @@ function init() {
 
   // Define basic scene parameters
   scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x000000);
-  scene.fog = new THREE.Fog(0xffffff, 0, 750);
+  scene.background = new THREE.Color('rgb(41,49,69)');
+  scene.fog = new THREE.Fog('rgb(149,178,248)', 50, .050);
 
   // Variable for GLTF data
   var mesh;
 
   // Load GLTF model, add material, and add it to the scene
   const loader = new GLTFLoader().load(
-    "./assets/moss-building-bushes-fallen-ver1.glb", // comment this line out and un comment the line below to swithc models
+    "./assets/moss-building-bushes-fallen-ver2.glb", // comment this line out and un comment the line below to swithc models
 
     function(gltf) {
       // Scan loaded model for mesh and apply defined material if mesh is present
@@ -68,7 +68,7 @@ function init() {
       mesh = gltf.scene;
       mesh.position.set(100, 0, 200);
       mesh.rotation.set(0, 0, 0);
-      mesh.scale.set(15, 15, 15); // <-- change this to (1, 1, 1) for photogrammetery model
+      mesh.scale.set(20, 20, 20); // <-- change this to (1, 1, 1) for photogrammetery model
       // Add model to scene
       scene.add(mesh);
     },
@@ -90,9 +90,9 @@ function init() {
       });
       // set position and scale
       mesh = gltf.scene;
-      mesh.position.set(-100, 0, -200);
+      mesh.position.set(-340, 0, 550);
       mesh.rotation.set(0, 0, 0);
-      mesh.scale.set(15, 15, 15); // <-- change this to (1, 1, 1) for photogrammetery model
+      mesh.scale.set(20, 20, 20);
       // Add model to scene
       scene.add(mesh);
     },
@@ -103,8 +103,8 @@ function init() {
   );
 
   // Define scene lighting
-  const light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.15);
-  light.position.set(0.5, 1, 0.75);
+  const light = new THREE.HemisphereLight('rgb(237,237,232)');
+  light.position.set(0.5, 1, 0.1);
   scene.add(light);
 
   // Define controls
@@ -207,7 +207,7 @@ function init() {
   for (let i = 0, l = position.count; i < l; i++) {
     vertex.fromBufferAttribute(position, i);
 
-    vertex.x += Math.random() * 20 - 10;
+    vertex.x += Math.random() * 2 - 10;
     vertex.y += Math.random() * 2;
     vertex.z += Math.random() * 20 - 10;
 
@@ -219,15 +219,7 @@ function init() {
   position = floorGeometry.attributes.position;
   const colorsFloor = [];
 
-  for (let i = 0, l = position.count; i < l; i++) {
-    color.setHSL(0.5, 0.5, 0.75);
-    colorsFloor.push(color.r, color.g, color.b);
-  }
 
-  floorGeometry.setAttribute(
-    "color",
-    new THREE.Float32BufferAttribute(colorsFloor, 3)
-  );
 
   const floorMaterial = new THREE.MeshBasicMaterial({
     vertexColors: true
@@ -238,34 +230,53 @@ function init() {
   // Insert completed floor into the scene
   scene.add(floor);
 
-
-  // First Image (red and purple glitch map)
+  //moss objects
   // Load image as texture
-  const texture = new THREE.TextureLoader().load( './assets/lichen-texture.png' );
+  const texture = new THREE.TextureLoader().load('./assets/lichen-texture-free.png');
   // Immediately use the texture for material creation
-  const material = new THREE.MeshBasicMaterial( { map: texture, side: THREE.DoubleSide } );
-  // Create plane geometry
-  const geometry = new THREE.SphereGeometry( 32, 16 );
-  // Apply image texture to plane geometry
-  const plane = new THREE.Mesh( geometry, material );
+  const material = new THREE.MeshBasicMaterial({
+    map: texture,
+    side: THREE.DoubleSide
+  });
+  // Create tetra geometry
+  const geometry = new THREE.TetrahedronGeometry(15, 0);
+  // Apply image texture to tetra geometry
+  const tetra = new THREE.Mesh(geometry, material);
   // Position plane geometry
-  plane.position.set(50 , 5 , -15);
-  // Place plane geometry
-  scene.add( plane );
+  tetra.position.set(50, 5, -15);
+  // Place tetra geometry
+  scene.add(tetra);
 
-  // Second Image (Text with image and white background)
-  // Load image as texture
-  const texture2 = new THREE.TextureLoader().load( './assets/city-text.jpeg' );
-  // immediately use the texture for material creation
-  const material2 = new THREE.MeshBasicMaterial( { map: texture2, side: THREE.DoubleSide } );
-  // Create plane geometry
-  const geometry2 = new THREE.PlaneGeometry( 200, 100 );
-  // Apply image texture to plane geometry
-  const plane2 = new THREE.Mesh( geometry2, material2 );
+  // Load image as textures
+  const texture2 = new THREE.TextureLoader().load('./assets/lichen-texture-free.png');
+  // Immediately use the texture for material creation
+  const material2 = new THREE.MeshBasicMaterial({
+    map: texture2,
+    side: THREE.DoubleSide
+  });
+  // Create tetra geometry
+  const geometry2 = new THREE.TetrahedronGeometry(305, 0);
+  // Apply image texture to tetra geometry
+  const tetra2 = new THREE.Mesh(geometry, material);
   // Position plane geometry
-  plane2.position.set(0 , 100 , -200);
-  // Place plane geometry
-  scene.add( plane2 );
+  tetra2.position.set(300, 5, -15);
+  // Place tetra geometry
+  scene.add(tetra2);
+
+  //CreateRing
+  // Load image as textures
+  const texture3 = new THREE.TextureLoader().load('./assets/lichen-texture-free.png');
+  // Immediately use the texture for material creation
+  const material3 = new THREE.MeshBasicMaterial({
+    map: texture3,
+    side: THREE.DoubleSide
+  });
+  const geometry3 = new THREE.RingGeometry(120, 250, 320);
+  const mesh3 = new THREE.Mesh(geometry3, material3);
+  // Position plane geometry
+  tetra2.position.set(300, 5, -15);
+  scene.add(mesh3);
+
 
   // Define Rendered and html document placement
   renderer = new THREE.WebGLRenderer({
